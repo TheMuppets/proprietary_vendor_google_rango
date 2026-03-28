@@ -1,0 +1,206 @@
+#
+# Rango sensor device configuration registry script for the DVT stage and after.
+#
+# Source of truth: go/pixel-sensor-list
+#
+
+#
+# CDT Filter <CDT>:<mask>
+# CDT format: <0xPPPPSJIV> (P:Product, S:Stage, J:Major, I:Minor, V:Variant)
+# go/pixel-cdt-lga
+#
+
+?+0x60000:0xFFFF0000
+# Exclude
+?-0x62000:0xFFFFF000  # Proto
+?-0x63000:0xFFFFF000  # EVT
+
+#
+# Record reg_script.
+#
+
++/
+reg_script=rango_dvt.reg
+
+#
+# Sensors
+#
+
+# ALSP 1 (TCS3743)
++/dev/tcs3743/0
+  is_changable_pwm_supported=1
+
++/dev/tcs3743/0/als
+  x_scale=1.03565
+  lux_scale=1.07542
+  z_scale=1.01102
+  x_crgbw_coefs=-2.786922 5.521570 244.816600 -125.766832 -2.102212
+  lux_crgbw_coefs=-1.796284 -8.445297 257.944726 -112.268346 -1.543587
+  z_crgbw_coefs=90.292812 -141.666800 17.824605 138.862121 4.124572
+
+  # Display PWM table and dependent parameters.
+  pwm_hz=240 480
+  vsync_delay_us=3004 3010
+  # DBV table and dependent parameters for each frequency in pwm_hz table.
+  #   Each parameter is appended with an index, equal to the index of the
+  #   PWM frequency it corresponds to, in the pwm_hz table.
+  itime_table_brightness_0=690 4096
+  itime_table_0=1600000 300000
+  max_gain_table_0=7 7
+  itime_table_brightness_1=326 690 4096
+  itime_table_1=1600000 1200000 300000
+  max_gain_table_1=7 7 7
+
+# ALSP 2 (TMD3743)
++/dev/tmd3743/0/als
+  # DBV table and dependent parameters for each frequency in pwm_hz table.
+  #   Each parameter is appended with an index, equal to the index of the
+  #   PWM frequency it corresponds to, in the pwm_hz table.
+  itime_table_brightness_0=791 4096
+  itime_table_0=1600000 300000
+  max_gain_table_0=7 7
+  prox_delay_60hz_0=13000 13000
+  prox_delay_120hz_0=6300 6300
+
+  # Histogram Configuration.
+  histo_enable=1
+  # Display coordinates go from top left to bottom right.
+  histo_roi_left=325
+  histo_roi_top=60
+  histo_roi_right=475
+  histo_roi_bottom=240
+  # The maximum brightness (DBV) value up to which histogram is active.
+  # This value should match one of the itime_table_brightness values.
+  histo_max_brightness=4096
+  # Minimum change needed for a leakage value to be reported, i.e.,
+  # min_change = MAX(min_change_value, current_leakage_val * min_change_rate)
+  histo_min_change_value=0.5
+  histo_min_change_rate=0.01
+  # Histogram polling interval in ms.
+  histo_polling_interval=50
+  # Fallback luma value to use when histogram returns error (e.g., due to DRM).
+  histo_fallback_luma=128.0
+
+  ## Leakage calculator configuration.
+
+  # Histo Luma matrix coefficients.
+  # Format: histo_luma_matrix_<pwm_hz>_<n> = <start_DBV> <end_DBV> <<co-effs of luma-term matrix>>
+  #         where: pwm_hz = PWM frequency; n = Luma matrix count.
+  # The luma-term matrix applies for the given pwm_hz, when "start_DBV <= current_DBV <= end_DBV".
+  histo_luma_matrix_240_0=0 791 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+  histo_luma_matrix_240_1=792 4096 0.48725748 0.39908217 0.11366034 0.65938762 0.28788832 0.05272406 0.17288092 0.68074427 0.14637481 0.44851709 0.28322465 0.26825825 0.5814121 0.35740286 0.06118503
+
+  # Histo Luma exponent table.
+  # Format: histo_luma_exp = <DBV1 exponent1> <DBV2 exponent2> ... <DBV_n exponent_n>
+  #         where: DBV1 < DBV2 < ... < DBV_n.
+  # For current_DBV, "exponent_x" value from first pair satisfying "current_DBV <= DBV_x" is chosen.
+  histo_luma_exp=4096 1.0
+
+  # Histo DBV equations.
+  # Format: histo_dbv_eq_<pwm_hz>_<channel_index>_<n> = <start_DBV> <end_DBV> <eq_type>
+  #                                                     <<equation co-efficients>>
+  #         where: pwm_hz = PWM freq; channel_index = Leakage channel index enumerated as CRGBW;
+  #                n = DBV equation count.
+  # The DBV-term equation applies for the given pwm_hz, for the given leakage channel,
+  # when "start_DBV <= current_DBV <= end_DBV".
+  histo_dbv_eq_240_0_0=0 791 0 0
+  histo_dbv_eq_240_0_1=792 4096 0 -1.71917630e+00 4.13662234e-03 -3.42673093e-06 1.42769244e-09 -2.88763405e-13 2.30888314e-17
+  histo_dbv_eq_240_1_0=0 791 0 0
+  histo_dbv_eq_240_1_1=792 4096 0 -1.44889887e+00 3.55220438e-03 -2.98166720e-06 1.26625335e-09 -2.58059488e-13 2.06196503e-17
+  histo_dbv_eq_240_2_0=0 791 0 0
+  histo_dbv_eq_240_2_1=792 4096 0 -2.22985902e+00 5.35570702e-03 -4.43016782e-06 1.81594986e-09 -3.57231716e-13 2.74177819e-17
+  histo_dbv_eq_240_3_0=0 791 0 0
+  histo_dbv_eq_240_3_1=792 4096 0 -2.10137055e+00 4.95518372e-03 -4.05048236e-06 1.64601898e-09 -3.20222317e-13 2.41371437e-17
+  histo_dbv_eq_240_4_0=0 791 0 0
+  histo_dbv_eq_240_4_1=792 4096 0 -1.71104210e+00 4.11206998e-03 -3.37272082e-06 1.37891696e-09 -2.68067289e-13 2.01693722e-17
+
++/dev/tmd3743/0/prox
+  pulse_count=2
+  pulse_len_us=32
+  far_threshold=1000
+  near_threshold=1600
+
+# IMU 0 (ICM45631)
++/dev/icm45631/0/accel
+  name=ICM45631 Accelerometer
++/dev/icm45631/0/gyro
+  name=ICM45631 Gyroscope
++/dev/icm45631/0/temp
+  name=ICM45631 Temperature
++/dev/icm45631/0/motion_detect
+  name=ICM45631 Motion Detect
++/dev/icm45631/0/stationary_detect
+  name=ICM45631 Stationary Detect
++/dev/icm45631/0/freefall_detect
+  name=ICM45631 FreeFall Detect
+
+# IMU 1 (ICM45621)
++/dev/icm45621/0
+  bus_name=i3c0
+  bus_freq_hz=400000
+  i3c_freq_hz=12300000
+  bus_addr=0x68
+  i3c_addr=0xa
+  intr_id=35
+  intr_gpio_id=57
+  trigger_type=3
+  priority=1
+  md_threshold=200
+  md_duration=1
+  sd_threshold=200
+  sd_timeout_ms=5000
+  sd_batching_latency_ms=1000
+  lowG_peak_threshold=2048
+  lowG_detect_timeout_ms=20
+  lowG_debounce_timeout_ms=1000
++/dev/icm45621/0/accel
+  orientation_transform=-2 1 3
+  name=ICM45621 Accelerometer
+  avg_odr_25=25
+  fac_cal_transform=0.99715 -0.00064 -0.01097 0.00185 0.99742 -0.00887 0.01139 0.00915 0.99778 0.03894 -0.02 -0.02691
+  temp=28.26223
+  temp_sensitivity=0.00028 0.00005 0.0013
++/dev/icm45621/0/gyro
+  orientation_transform=-2 1 3
+  name=ICM45621 Gyroscope
+  avg_odr_25=25
+  fac_cal_transform=1.0029 -0.00213 -0.01162 0.00139 1.00123 -0.00984 0.01086 0.00989 0.99589 0.00206 0.00352 -0.001
+  temp=28.26223
+  temp_sensitivity=0.00002 0.0 0.00003
++/dev/icm45621/0/temp
+  name=ICM45621 Temperature
++/dev/icm45621/0/motion_detect
+  name=ICM45621 Motion Detect
++/dev/icm45621/0/stationary_detect
+  name=ICM45621 Stationary Detect
++/dev/icm45621/0/freefall_detect
+  name=ICM45621 FreeFall Detect
+
+# Flip-side Magnetometer.
++/vsc/flip_mag
+
+# MAG (MMC5616)
++/dev/mmc5616/0
+  priority=1
++/dev/mmc5616/0/mag
+  name=MMC5616 Magnetometer
+
+# Hall Effect 0 (DRV5032)
++/dev/drv5032/0
+  gpio_id=gpio38
+  intr_id=0
+  priority=0
+  name=DRV5032 Hall Effect Sensor 0
+
+# RAINBOW (VD6282)
++/dev/vd6282/0/spectral
+  # Golden values for calibration.
+  golden_rals_r=1063.41954981231
+  golden_rals_g=1172.28782830847
+  golden_rals_b=299.130025567324
+  golden_rals_clr1=5203.8111178312
+  golden_rals_ir=3239.07382008362
+  golden_rals_clr2=5269.26440304648
+
++/dev/vd6282/0/rls
+  lux_scale=104.611032

@@ -1,0 +1,169 @@
+#
+# Rango sensor device configuration registry script for the Proto 1.0 stage.
+#
+# Source of truth: go/pixel-sensor-list
+#
+
+#
+# CDT Filter <CDT>:<mask>
+# CDT format: <0xPPPPSJIV> (P:Product, S:Stage, J:Major, I:Minor, V:Variant)
+# go/pixel-cdt-lga
+#
+
+?+0x62100:0xFFFFFFF0  # Proto 1.0
+
+#
+# Record reg_script.
+#
+
++/
+reg_script=rango_proto_1_0.reg
+
+#
+# Sensors
+#
+
+# ALSP 1 (TCS3743)
++/dev/tcs3743/0/als
+  x_scale=21.246
+  lux_scale=37.809
+  z_scale=33.987
+  x_crgbw_coefs=-161.701523 135.037240 574.937571 -199.229473 -8.077458
+  lux_crgbw_coefs=-141.636111 99.909170 553.033286 -165.961629 -6.503455
+  z_crgbw_coefs=-39.471944 -31.695743 193.677346 193.081543 -1.456608
+  # CRGBW nonlinear part coefficients. The values sequentially represents the coefficients of the following nonlinear terms.
+  # CC + RR + GG + BB + WW + CR + CG + CB + CW + RG + RB + RW + GB + GW + BW
+  x_crgbw_nonlinear_coefs=-73.823078 -98.224792 153.640766 -116.975970 -0.404733 176.806519 -28.813256 317.522892 -11.962693 -30.389286 -312.102302 12.653165 -308.544545 4.953939 18.560824
+  lux_crgbw_nonlinear_coefs=-77.899008 -100.631989 142.383006 -120.269655 -0.403525 183.967412 -8.969410 304.765119 -12.315270 -55.310857 -292.468631 12.782216 -298.782562 6.522897 17.338684
+  z_crgbw_nonlinear_coefs=-91.744735 -94.079633 56.941347 -133.197732 -0.362610 190.897078 76.109882 291.152683 -12.536514 -115.224641 -270.055095 11.827603 -282.848117 9.917104 15.561097
+
+  # Display PWM table and dependent parameters.
+  pwm_hz=240
+  vsync_delay_us=3004
+  # DBV table and dependent parameters for each frequency in pwm_hz table.
+  #   Each parameter is appended with an index, equal to the index of the
+  #   PWM frequency it corresponds to, in the pwm_hz table.
+  itime_table_brightness_0=777 4096
+  itime_table_0=1600000 300000
+  max_gain_table_0=7 7
+
+# ALSP 2 (TMD3743)
++/dev/tmd3743/0/als
+  # DBV table and dependent parameters for each frequency in pwm_hz table.
+  #   Each parameter is appended with an index, equal to the index of the
+  #   PWM frequency it corresponds to, in the pwm_hz table.
+  itime_table_brightness_0=894 4096
+  itime_table_0=1600000 300000
+  max_gain_table_0=7 7
+  prox_delay_60hz_0=13000 13000
+  prox_delay_120hz_0=6300 6300
+
++/dev/tmd3743/0/prox
+  pulse_count=4
+  pulse_len_us=63
+  far_threshold=1200
+  near_threshold=2000
+
+# IMU 0 (ICM45631)
++/dev/icm45631/0/accel
+  name=ICM45631 Accelerometer 0
++/dev/icm45631/0/gyro
+  name=ICM45631 Gyroscope 0
++/dev/icm45631/0/temp
+  name=ICM45631 Temperature 0
++/dev/icm45631/0/motion_detect
+  name=ICM45631 Motion Detect 0
++/dev/icm45631/0/stationary_detect
+  name=ICM45631 Stationary Detect 0
++/dev/icm45631/0/freefall_detect
+  name=ICM45631 FreeFall Detect 0
+
+# IMU 1 (ICM45631)
++/dev/icm45631/1
+  bus_name=i3c0
+  bus_freq_hz=400000
+  i3c_freq_hz=12300000
+  bus_addr=0x68
+  i3c_addr=0xa
+  intr_id=35
+  intr_gpio_id=57
+  trigger_type=3
+  priority=1
+  md_threshold=200
+  md_duration=1
+  sd_threshold=200
+  sd_timeout_ms=5000
+  sd_batching_latency_ms=1000
+  lowG_peak_threshold=2048
+  lowG_detect_timeout_ms=20
+  lowG_debounce_timeout_ms=1000
++/dev/icm45631/1/accel
+  orientation_transform=-2 1 3
+  name=ICM45631 Accelerometer 1
++/dev/icm45631/1/gyro
+  orientation_transform=-2 1 3
+  name=ICM45631 Gyroscope 1
++/dev/icm45631/1/temp
+  name=ICM45631 Temperature 1
++/dev/icm45631/1/motion_detect
+  name=ICM45631 Motion Detect 1
++/dev/icm45631/1/stationary_detect
+  name=ICM45631 Stationary Detect 1
++/dev/icm45631/1/freefall_detect
+  name=ICM45631 FreeFall Detect 1
+
+# MAG 0 (MMC5616)
++/dev/mmc5616/0
+  priority=0
++/dev/mmc5616/0/mag
+  name=MMC5616 Magnetometer 0
+
+# MAG 1 (MMC5616)
++/dev/mmc5616/1
+  bus_name=i3c4
+  bus_freq_hz=400000
+  i3c_freq_hz=6250000
+  bus_addr=0x30
+  i3c_addr=0x14
+  priority=1
++/dev/mmc5616/1/mag
+  orientation_transform=-2 -1 -3
+  name=MMC5616 Magnetometer 1
+
+# MAG 2 (MMC5616)
++/dev/mmc5616/2
+  bus_name=i2c1
+  bus_freq_hz=400000
+  bus_addr=0x30
+  priority=2
++/dev/mmc5616/2/mag
+  orientation_transform=-1 2 -3
+  name=MMC5616 Magnetometer 2
+
+# Hall Effect 0 (DRV5032)
++/dev/drv5032/0
+  gpio_id=gpio60
+  intr_id=6
+  priority=0
+  name=DRV5032 Hall Effect Sensor 0
+
+# Hall Effect 2 (DRV5032)
++/dev/drv5032/2
+  gpio_id=gpio38
+  intr_id=0
+  priority=2
+  name=DRV5032 Hall Effect Sensor 2
+  hidden=1
+
+# RAINBOW (VD6282)
++/dev/vd6282/0/spectral
+  # Golden values for calibration.
+  golden_rals_r=1026.77620425233
+  golden_rals_g=1143.18306759531
+  golden_rals_b=295.266483595043
+  golden_rals_clr1=5063.50493385631
+  golden_rals_ir=3369.20025749137
+  golden_rals_clr2=5171.2771679018
+
++/dev/vd6282/0/rls
+  lux_scale=107.238537
