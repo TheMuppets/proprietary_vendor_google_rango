@@ -1,5 +1,5 @@
 {
-    "Include": ["thermal_info_config.json"],
+    "Include": ["thermal_info_config_lpm.json"],
     "Sensors":[
         {
             "Name": "VIRTUAL-SKIN-CHARGE-WIRED",

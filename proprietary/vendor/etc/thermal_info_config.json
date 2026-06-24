@@ -163,13 +163,24 @@
             "TimeResolution": 7000
         },
         {
+          "Name": "VIRTUAL-SKIN-MODEL-UPPER-CLAMPED",
+          "Type": "UNKNOWN",
+          "VirtualSensor": true,
+          "Hidden": true,
+          "Formula": "MINIMUM",
+          "Combination": ["56500", "VIRTUAL-SKIN-MODEL"],
+          "CombinationType": ["CONSTANT", "SENSOR"],
+          "Coefficient": [1.0, 1.0],
+          "Multiplier": 1
+        },
+        {
           "Name": "VIRTUAL-SKIN-LEGACY-SHUTDOWN",
           "Type": "UNKNOWN",
           "Hidden": true,
           "VirtualSensor": true,
           "Formula": "COUNT_THRESHOLD",
           "Combination": ["VIRTUAL-SKIN-LEGACY"],
-          "Coefficient": [58000],
+          "Coefficient": [56500],
           "Multiplier": 1.0
         },
         {
@@ -181,7 +192,7 @@
             "Combination": ["VIRTUAL-SKIN-MODEL-UPDATED", "VIRTUAL-SKIN-LEGACY"],
             "Coefficient": [1.0, "VIRTUAL-SKIN-LEGACY-SHUTDOWN"],
             "CoefficientType":["CONSTANT", "SENSOR"],
-            "HotThreshold": ["NAN", 39.0, 43.0, 45.0, 46.5, 52.0, 55.0],
+            "HotThreshold": ["NAN", 39.0, 43.0, 45.0, 46.5, 53.0, 56.5],
             "HotHysteresis": [0.0, 1.9, 1.9, 1.9, 1.4, 1.9, 1.9],
             "Multiplier": 0.001,
             "SendCallback": true,
@@ -203,7 +214,7 @@
             "Formula": "MAXIMUM",
             "Combination": ["VIRTUAL-SKIN"],
             "Coefficient": [1.0],
-            "HotThreshold": ["NAN", 37.0, 43.0, 45.0, 46.5, 52.0, 55.0],
+            "HotThreshold": ["NAN", 37.0, 43.0, 45.0, 46.5, 53.0, 56.5],
             "HotHysteresis": [0.0, 1.9, 1.9, 1.9, 1.4, 1.9, 1.9],
             "Multiplier": 0.001,
             "SendPowerHint": true,
@@ -253,20 +264,12 @@
                     "CdevCeilingFrequency": [3052000, 1785000, 1785000, 1785000, 1785000, 1785000, 1785000]
                 },
                 {
-                    "CdevRequest": "cpufreq-cpu5",
+                    "CdevRequest": "big_and_big_mid",
                     "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
                     "MaxReleaseStep": 1,
                     "MaxThrottleStep": 1,
                     "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3052000, 1785000, 1785000, 1785000, 1785000, 1785000, 1785000]
-                },
-                {
-                    "CdevRequest": "cpufreq-cpu7",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 1,
-                    "MaxThrottleStep": 1,
-                    "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [4012000, 2073000, 2073000, 2073000, 2073000, 2073000, 2073000]
+                    "CdevCeiling": [0, 10, 10, 10, 10, 10, 10]
                 }
             ],
             "Profile": [
@@ -286,15 +289,9 @@
                            "Disabled":true
                         },
                         {
-                           "CdevRequest": "cpufreq-cpu5",
-                           "BindedPowerRail": "S2M_VDD_CPU2",
+                           "CdevRequest": "big_and_big_mid",
                            "MaxReleaseStep": 1,
-                           "Disabled":true
-                        },
-                        {
-                           "CdevRequest": "cpufreq-cpu7",
                            "BindedPowerRail": "S2M_VDD_CPU2",
-                           "MaxReleaseStep": 1,
                            "Disabled":true
                         }
                     ]
@@ -454,20 +451,12 @@
                     "CdevCeilingFrequency": [3052000, 729600, 729600, 729600, 729600, 729600, 729600]
                 },
                 {
-                    "CdevRequest": "cpufreq-cpu5",
+                    "CdevRequest": "big_and_big_mid",
                     "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 2,
-                    "MaxThrottleStep": 2,
+                    "MaxReleaseStep": 1,
+                    "MaxThrottleStep": 1,
                     "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3052000, 729600, 729600, 729600, 729600, 729600, 729600]
-                },
-                {
-                    "CdevRequest": "cpufreq-cpu7",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 2,
-                    "MaxThrottleStep": 2,
-                    "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [4012000, 883000, 883000, 883000, 883000, 883000, 883000]
+                    "CdevCeiling": [0, 20, 20, 20, 20, 20, 10]
                 }
             ],
             "Profile": [
@@ -487,13 +476,7 @@
                            "Disabled":true
                         },
                         {
-                           "CdevRequest": "cpufreq-cpu5",
-                           "MaxReleaseStep": 1,
-                           "BindedPowerRail": "S2M_VDD_CPU2",
-                           "Disabled":true
-                        },
-                        {
-                           "CdevRequest": "cpufreq-cpu7",
+                           "CdevRequest": "big_and_big_mid",
                            "MaxReleaseStep": 1,
                            "BindedPowerRail": "S2M_VDD_CPU2",
                            "Disabled":true
@@ -516,13 +499,7 @@
                            "Disabled":true
                         },
                         {
-                           "CdevRequest": "cpufreq-cpu5",
-                           "MaxReleaseStep": 1,
-                           "BindedPowerRail": "S2M_VDD_CPU2",
-                           "Disabled":true
-                        },
-                        {
-                           "CdevRequest": "cpufreq-cpu7",
+                           "CdevRequest": "big_and_big_mid",
                            "MaxReleaseStep": 1,
                            "BindedPowerRail": "S2M_VDD_CPU2",
                            "Disabled":true
@@ -686,22 +663,13 @@
                     "LimitInfoFrequency": [3052000, 3052000, 3052000, 3052000, 3052000, 3052000, 307200]
                 },
                 {
-                    "CdevRequest": "cpufreq-cpu5",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
+                    "CdevRequest": "big_and_big_mid",
+                    "CdevWeightForPID": [0.65, 0.65, 0.65, 0.65, 0.65, 0.65, 0.65],
                     "MaxReleaseStep": 1,
                     "MaxThrottleStep": 1,
                     "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3052000, 1785600, 1785600, 1267200, 729600, 729600, 307200],
-                    "LimitInfoFrequency": [3052000, 3052000, 3052000, 3052000, 3052000, 3052000, 307200]
-                },
-                {
-                    "CdevRequest": "cpufreq-cpu7",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 1,
-                    "MaxThrottleStep": 1,
-                    "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [4012000, 2073600, 2073600, 1420800, 883200, 883200, 384000],
-                    "LimitInfoFrequency": [4012000, 4012000, 4012000, 4012000, 4012000, 4012000, 384000]
+                    "CdevCeiling": [0, 22, 22, 22, 22, 22, 22],
+                    "LimitInfo": [0, 0, 0, 0, 0, 0, 22]
                 },
                 {
                     "CdevRequest": "gpu",
@@ -732,7 +700,7 @@
             "Formula": "MAXIMUM",
             "Combination": ["VIRTUAL-SKIN-OPEN"],
             "Coefficient": [1.0],
-            "HotThreshold": ["NAN", 39.0, 43.0, 45.0, 46.5, 52.0, 55.0],
+            "HotThreshold": ["NAN", 39.0, 43.0, 45.0, 46.5, 53.0, 56.5],
             "HotHysteresis": [0.0, 1.9, 1.9, 1.9, 1.4, 1.9, 1.9],
             "Multiplier": 0.001,
             "SendCallback": true,
@@ -740,16 +708,31 @@
             "PassiveDelay": 7000
         },
         {
-            "Name": "VIRTUAL-SKIN-OUTER-DISPLAY",
-            "Type": "DISPLAY",
-            "Version": "24.11.13",
+            "Name": "VIRTUAL-SKIN-OUTER-DISPLAY-LEGACY",
+            "Type": "UNKNOWN",
+            "Version": "25.08.11",
             "VirtualSensor": true,
             "TriggerSensor": ["outer_disp_therm"],
             "Formula": "WEIGHTED_AVG",
-            "Combination": ["soc_therm", "rfpa_therm", "quiet_therm", "usb_pwr_therm", "inner_disp_therm", "flash_therm", "outer_disp_therm", "north_therm", "charging_therm"],
-            "Coefficient": [0.071, 0.04, 0.118, 0.037, 0.092, 0.084, 0.38, 0.021, 0.282],
-            "Offset": -2943.0,
-            "HotThreshold": ["NAN", 39.0, 43.0, 45.0, 46.5, 52.0, 55.0],
+            "Combination": ["soc_therm", "rfpa_therm", "quiet_therm", "charging_therm", "inner_disp_therm", "flash_therm", "outer_disp_therm", "north_therm", "usb_pwr_therm"],
+            "Coefficient": [0.071, 0.013, 0.23, 0.098, 0.023, 0.069, 0.337, 0.009, 0.23],
+            "Offset": 95.0,
+            "Multiplier": 0.001
+        },
+        {
+            "Name": "VIRTUAL-SKIN-OUTER-DISPLAY",
+            "Type": "DISPLAY",
+            "Version": "25.08.11",
+            "VirtualSensor": true,
+            "TriggerSensor": ["outer_disp_therm"],
+            "ModelPath": "vt_estimation_model_display.tflite",
+            "Formula": "USE_ML_MODEL",
+            "Combination": ["charging_therm", "inner_disp_therm", "outer_disp_therm", "flash_therm", "north_therm", "quiet_therm", "rfpa_therm", "soc_therm", "usb_pwr_therm"],
+            "Multiplier": 0.001,
+            "PreviousSampleCount": 3,
+            "BackupSensor" : "VIRTUAL-SKIN-OUTER-DISPLAY-LEGACY",
+            "TimeResolution": 7000,
+            "HotThreshold": ["NAN", 39.0, 43.0, 45.0, 46.5, 53.0, 56.5],
             "HotHysteresis": [0.0, 1.9, 1.9, 1.9, 1.4, 1.9, 1.9],
             "Multiplier": 0.001,
             "SendCallback": true,
@@ -895,7 +878,7 @@
             "Formula":"MAXIMUM",
             "Combination":["VIRTUAL-SKIN"],
             "Coefficient":[1.0],
-            "HotThreshold":["NAN", "NAN", "NAN", "NAN", "NAN", 54.0, "NAN"],
+            "HotThreshold":["NAN", "NAN", "NAN", "NAN", "NAN", 55.0, "NAN"],
             "HotHysteresis":[0.0, 0.0, 0.0, 0.0, 0.0, 1.9, 0.0],
             "Multiplier":0.001,
             "SendCallback":true,
@@ -910,8 +893,8 @@
             "Name":"PARTIAL_SYSTEM_POWER",
             "VirtualRails":true,
             "Formula":"WEIGHTED_AVG",
-            "Combination":["S1M_VDD_AMB", "S2M_VDD_CPU2", "S3M_VDD_CPU1", "S4M_VDD_CPU", "S7M_VDD_TPU", "S8M_LLDO2", "S9M_VDD_TPU_M", "S11M_VDD_CPU_M", "S12M_VDD_CPU1_M", "VSYS_PWR_WLAN_BT", "S2S_VDD_GPU", "S4S_VDD2H_MEM", "S7S_MLDO", "S8S_VDD_GMC", "VSYS_PWR_RFFE", "VSYS_PWR_MODEM", "VSYS_PWR_DISP_INNER", "VSYS_PWR_DISP_OUTER"],
-            "Coefficient":[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+            "Combination":["S1M_VDD_AMB", "S2M_VDD_CPU2", "S3M_VDD_CPU1", "S4M_VDD_CPU", "S7M_VDD_TPU", "S8M_LLDO2", "S11M_VDD_CPU_M", "S12M_VDD_CPU1_M", "VSYS_PWR_WLAN_BT", "S2S_VDD_GPU", "S4S_VDD2H_MEM", "S7S_MLDO", "S8S_VDD_GMC", "VSYS_PWR_RFFE", "VSYS_PWR_MODEM", "VSYS_PWR_DISP_INNER", "VSYS_PWR_DISP_OUTER"],
+            "Coefficient":[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
             "PowerSampleDelay":7000,
             "PowerSampleCount":5
         }

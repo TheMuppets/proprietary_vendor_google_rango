@@ -2,9 +2,11 @@ on property:sys.boot_completed=1
 	chown system system /sys/class/power_supply/max77779fg/fg_learning_events
 	chown system system /sys/class/power_supply/max77779fg/fg_abnormal_events
 	chown system system /sys/class/power_supply/maxfg_base/fg_learning_events
+	chown system system /sys/class/power_supply/dualbatt/dbatt_stats
 	chown system system /sys/devices/platform/maxim,max77779fwu/update_stats
 	chown system system /dev/logbuffer_max77779_fwupdate
 	chown system system /dev/logbuffer_wlc_fw_update
+	chown system system /dev/logbuffer_ggauge_health_monitor
 	start vendor.pixelstats_vendor
 on post-fs-data
     chown system system /sys/kernel/metrics/irq/stats_reset
@@ -24,6 +26,30 @@ on post-fs-data
     chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/LITTLE/reset_trip_cnt
     chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/MID/reset_trip_cnt
     chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/TPU/reset_trip_cnt
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/AOC/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/AOC/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/AOC/tz_err_cnt_2
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/AUR/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/AUR/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/AUR/tz_err_cnt_2
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/BIG/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/BIG/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/BIG/tz_err_cnt_2
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/BIG_MID/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/BIG_MID/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/BIG_MID/tz_err_cnt_2
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/GPU/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/GPU/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/GPU/tz_err_cnt_2
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/LITTLE/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/LITTLE/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/LITTLE/tz_err_cnt_2
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/MID/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/MID/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/MID/tz_err_cnt_2
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/TPU/tz_err_cnt_0
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/TPU/tz_err_cnt_1
+    chown system system /sys/firmware/mbfs_root/cpm/thermal/tj/TPU/tz_err_cnt_2
 
 service vendor.pixelstats_vendor /vendor/bin/pixelstats-vendor
     class hal

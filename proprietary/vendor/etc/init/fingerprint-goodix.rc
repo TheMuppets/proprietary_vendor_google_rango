@@ -11,8 +11,10 @@ on early-boot
     chown system system /dev/goodix_fp
     setprop vendor.gf.debug.dump_data 0
     setprop vendor.gf.debug.dump_bigdata_data 0
+    setprop vendor.gf.init.fail.count 0
 
 
 on property:ro.vendor.trusty.storage.fs_ready=1
     exec_background - system shell -- /vendor/bin/trusty_apploader /vendor/firmware/3626.app
-    enable vendor.fingerprint-goodix
+    start vendor.fingerprint-goodix
+

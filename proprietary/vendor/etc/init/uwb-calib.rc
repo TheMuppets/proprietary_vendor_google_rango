@@ -1,4 +1,4 @@
-on boot
+on early-boot
     # copy persist cal and convert format
     chmod 0444 /mnt/vendor/persist/uwb/uwb.cal
     rm /data/vendor/uwb/uwb.cal

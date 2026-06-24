@@ -27,6 +27,8 @@
     "/dev/sys/block/bootdevice/err_stats/fatal_err_count",
     "/dev/sys/block/bootdevice/err_stats/auto_hibern8_err_count"
   ],
+  "FabhbwPath": "/sys/class/devfreq/fabhbw_freq/cur_freq",
+  "FabsyssPath": "/sys/class/devfreq/fabsyss_freq/cur_freq",
   "AmsRatePath": "/sys/devices/platform/audiometrics/ams_rate_read_once",
   "ResumeLatencyMetricsPath": "/sys/kernel/metrics/resume_latency/resume_latency_metrics",
   "LongIRQMetricsPath": "/sys/kernel/metrics/irq/long_irq_metrics",
@@ -82,6 +84,72 @@
       "ResetPath": "/sys/firmware/mbfs_root/cpm/thermal/tj/TPU/reset_trip_cnt"
     }
   ],
+  "ThermalTjSensorErrorCountConfig": [
+    {
+      "Name": "AOC",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/AOC/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/AOC/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/AOC/tz_err_cnt_2"
+      ]
+    },
+    {
+      "Name": "AUR",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/AUR/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/AUR/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/AUR/tz_err_cnt_2"
+      ]
+    },
+    {
+      "Name": "BIG",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/BIG/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/BIG/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/BIG/tz_err_cnt_2"
+      ]
+    },
+    {
+      "Name": "BIG_MID",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/BIG_MID/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/BIG_MID/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/BIG_MID/tz_err_cnt_2"
+      ]
+    },
+    {
+      "Name": "GPU",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/GPU/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/GPU/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/GPU/tz_err_cnt_2"
+      ]
+    },
+    {
+      "Name": "LITTLE",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/LITTLE/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/LITTLE/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/LITTLE/tz_err_cnt_2"
+      ]
+    },
+    {
+      "Name": "MID",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/MID/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/MID/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/MID/tz_err_cnt_2"
+      ]
+    },
+    {
+      "Name": "TPU",
+      "ErrorPaths": [
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/TPU/tz_err_cnt_0",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/TPU/tz_err_cnt_1",
+        "/sys/firmware/mbfs_root/cpm/thermal/tj/TPU/tz_err_cnt_2"
+      ]
+    }
+  ],
   "TempResidencyAndResetPaths": [
     [
       "/sys/kernel/metrics/thermal/tr_by_group/tmu/stats",
@@ -120,7 +188,8 @@
   ],
   "FGAbnlPath": [
     "/dev/logbuffer_max77779fg_monitor",
-    "/dev/logbuffer_maxfg_base_monitor"
+    "/dev/logbuffer_maxfg_base_monitor",
+    "/dev/logbuffer_maxfg_secondary_monitor"
   ],
   "DisplayPortStatsPaths": [
     "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/link_negotiation_failures",
@@ -128,7 +197,9 @@
     "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/dpcd_read_failures",
     "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/edid_invalid_failures",
     "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/sink_count_invalid_failures",
-    "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/link_unstable_failures"
+    "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/link_unstable_failures",
+    "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/connection_success",
+    "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/connection_failure"
   ],
   "DisplayPortDSCStatsPaths": [
     "/sys/devices/platform/c600000.dwc_dptx/drm-displayport-stats/fec_dsc_supported",
@@ -151,7 +222,73 @@
     "/sys/class/drm/card0/device/primary-panel/error_count_te",
     "/sys/class/drm/card0/device/primary-panel/error_count_unknown",
     "/sys/class/drm/card0/device/secondary-panel/error_count_te",
-    "/sys/class/drm/card0/device/secondary-panel/error_count_unknown"
+    "/sys/class/drm/card0/device/secondary-panel/error_count_unknown",
+    "/sys/class/drm/card0/device/primary-panel/panel_extinfo",
+    "/sys/class/drm/card0/device/primary-panel/panel_error_stats/",
+    "/sys/class/drm/card0/device/secondary-panel/panel_extinfo",
+    "/sys/class/drm/card0/device/secondary-panel/panel_error_stats/",
+    "/sys/class/drm/card0/device/primary-panel/gram_collision_count",
+    "/sys/class/drm/card0/device/secondary-panel/gram_collision_count"
+  ],
+  "DisplayStatsErrorType": [
+    "dsi_sot",
+    "dsi_sot_sync",
+    "dsi_eot_sync",
+    "dsi_escape_mode_entry",
+    "dsi_lp_xmit_sync",
+    "dsi_hs_rx_timeout",
+    "dsi_false_control",
+    "dsi_data_lane_contention",
+    "dsi_ecc_single",
+    "dsi_ecc_multi",
+    "dsi_checksum",
+    "dsi_data_type",
+    "dsi_vc_id_invalid",
+    "dsi_xmit_len",
+    "dsi_reserved",
+    "dsi_protocol_violation",
+    "dsi_read_failure",
+    "vlin1",
+    "te",
+    "pps",
+    "checksum",
+    "esd",
+    "disp_invalid",
+    "vgh",
+    "gram_collision"
+  ],
+  "DpuStatsPaths": [
+    "/sys/class/drm/card0/crtc-0/errors/",
+    "/sys/class/drm/card0/crtc-1/errors/",
+    "/sys/class/drm/card0/crtc-2/errors/",
+    "/sys/class/drm/card0/crtc-3/errors/"
+  ],
+  "DpuStatsErrorType": [
+    "frame_done_missing",
+    "frame_done_timeout",
+    "frame_start_missing",
+    "frame_start_timeout",
+    "underrun_count"
+  ],
+  "DisplayRecoveryStatsPaths": [
+    "/sys/class/drm/card0/crtc-0/recovery_stats/",
+    "/sys/class/drm/card0/crtc-1/recovery_stats/",
+    "/sys/class/drm/card0/crtc-2/recovery_stats/",
+    "/sys/class/drm/card0/crtc-3/recovery_stats/"
+  ],
+  "DisplayRecoveryStatsType": [
+    "manual_success",
+    "manual_failure",
+    "manual_max_retry",
+    "frame_update_timeout_success",
+    "frame_update_timeout_failure",
+    "frame_update_timeout_max_retry",
+    "dsi_err_success",
+    "dsi_err_failure",
+    "dsi_err_max_retry",
+    "ddic_err_success",
+    "ddic_err_failure",
+    "ddic_err_max_retry"
   ],
   "HDCPStatsPaths": [
     "/sys/devices/platform/c600000.dwc_dptx/drm-hdcp/hdcp2_success_count",
@@ -167,5 +304,41 @@
     "/sys/class/power_supply/maxfg_base/registers_dump",
     "/sys/class/power_supply/maxfg_secondary/registers_dump"
   ],
-  "SSRestartPath": "/data/vendor/ssrdump"
+  "SSRestartPath": "/data/vendor/ssrdump",
+  "HardwareComponentInfoConfig": {
+    "APPLICATION_PROCESSOR": {
+      "vendor": {"Source": "Property", "Path": "ro.soc.manufacturer"},
+      "hw_version": {"Source": "Property", "Path": "ro.boot.hw.soc.rev"}
+    },
+    "MEMORY": {
+      "vendor": {"Source":  "Property", "Path": "ro.boot.ddr_info"},
+      "size": {"Source":  "Property", "Path": "ro.boot.ddr_size"}
+    },
+    "STORAGE": {
+      "vendor": {"Source":  "File", "Path": "/sys/bus/scsi/devices/0:0:0:0/vendor"},
+      "size": {"Source":  "Property", "Path": "ro.boot.hardware.ufs"},
+      "sw_version": {"Source":  "File", "Path": "/sys/bus/scsi/devices/0:0:0:0/rev"}
+    },
+    "DISPLAY": {
+      "vendor": {"Source":  "File", "Path": "/sys/devices/platform/sswrp_dpu@ec00000/sswrp_dpu@ec00000:display-subsystem/primary-panel/panel_name"},
+      "serial_number": {"Source":  "File", "Path": "/sys/devices/platform/sswrp_dpu@ec00000/sswrp_dpu@ec00000:display-subsystem/primary-panel/serial_number"}
+    },
+    "BATTERY": {
+      "size": {"Source":  "File", "Path": "/sys/class/power_supply/battery/charge_full_design"},
+      "serial_number": {"Source": "File", "Paths": [
+        "/sys/class/power_supply/maxfg_base/serial_number",
+        "/sys/class/power_supply/max77779fg/serial_number",
+        "/sys/class/power_supply/maxfg/serial_number"
+      ]}
+    },
+    "BATTERY_SECONDARY": {
+      "size": {"Source":  "File", "Path": "/sys/class/power_supply/battery/charge_full_design"},
+      "serial_number": {"Source": "File", "Path": "/sys/class/power_supply/maxfg_secondary/serial_number", "Required":  true}
+    },
+    "DISPLAY_SECONDARY": {
+      "vendor": {"Source":  "File", "Path": "/sys/devices/platform/sswrp_dpu@ec00000/sswrp_dpu@ec00000:display-subsystem/secondary-panel/panel_name"},
+      "serial_number": {"Source":  "File", "Path": "/sys/devices/platform/sswrp_dpu@ec00000/sswrp_dpu@ec00000:display-subsystem/secondary-panel/serial_number", "Required":  true}
+    }
+  },
+  "GGaugeHealthMonitorPath": "/dev/logbuffer_ggauge_health_monitor"
 }

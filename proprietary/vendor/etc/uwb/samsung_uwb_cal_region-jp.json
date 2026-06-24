@@ -5,8 +5,8 @@
         "TOA_RF_ANT3_CH9": 2100,
         "TOA_RF_ANT4_CH9": 0,
         "TOA_RF_ANT1_CH5": 2168,
-        "TOA_RF_ANT2_CH5": 0,
-        "TOA_RF_ANT3_CH5": 0,
+        "TOA_RF_ANT2_CH5": 2140,
+        "TOA_RF_ANT3_CH5": 2100,
         "TOA_RF_ANT4_CH5": 0
     },
     "lut": {

@@ -21,31 +21,35 @@
             "RecordWithThreshold": [
                 {
                     "Name": "VIRTUAL-SKIN-TOP-SPEAKER",
-                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55]
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
                 },
                 {
                     "Name": "VIRTUAL-SKIN-BOTTOM-SPEAKER",
-                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55]
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
                 },
                 {
                     "Name": "VIRTUAL-SKIN-SPEAKER-LEGACY",
-                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55]
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
+                },
+                {
+                    "Name": "VIRTUAL-SKIN-OUTER-DISPLAY-LEGACY",
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
                 },
                 {
                     "Name": "VIRTUAL-SKIN-OUTER-DISPLAY",
-                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55]
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
                 },
                 {
                     "Name": "VIRTUAL-SKIN",
-                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55]
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
                 },
                 {
                     "Name": "VIRTUAL-SKIN-LEGACY",
-                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55]
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
                 },
                 {
                     "Name": "VIRTUAL-SKIN-MODEL",
-                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55]
+                    "Thresholds": [31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 56.5]
                 },
                 {
                     "Name": "VIRTUAL-SKIN-MODEL-LEGACY-DIFF",
@@ -69,7 +73,7 @@
                     "Configs": [
                         {
                             "Monitor": ["VIRTUAL-SKIN-MODEL"],
-                            "TempRange": [0.0, 55.0]
+                            "TempRange": [0.0, 56.5]
                         },
                         {
                             "Monitor": ["VIRTUAL-SKIN-MODEL-LEGACY-DIFF"],

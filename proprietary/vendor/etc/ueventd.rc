@@ -280,3 +280,6 @@ subsystem usbmon
 
 # USB Alt Modes
 /sys/devices/platform/53f1000.spmi/spmi-*/*-04/typec/port0/port0-partner/port0-partner.*    mode1/active    0664    system    system
+
+# Pixel memory daemon
+/dev/pixelmd                           0660   system     system

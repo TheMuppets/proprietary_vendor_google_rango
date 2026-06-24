@@ -17,9 +17,14 @@
 					"blocked_by": ["segmentation"],
 				},
 				{
+					"class": "CoordstateAlgorithm",
+					"name": "coordstate",
+					"blocked_by": ["touchflow"]
+				},
+				{
 					"class": "PeakTrackerAlgorithm",
 					"name": "peak_tracker",
-					"blocked_by": ["touchflow"],
+					"blocked_by": ["coordstate"],
 				},
 				{
 					"class": "GripSuppressionAlgorithm",
@@ -61,9 +66,23 @@
 					"blocked_by": ["abnormal_detect"],
 				},
 				{
+					"class": "GestureAlgorithm",
+					"name": "gesture",
+					"blocked_by": ["reporting"],
+					"parameters": {
+						"min_gesture_pool_size": 5,
+						"double_tap_window_ns": 300000000,
+						"long_press_window_ns": 500000000,
+						"max_tap_displacement_mm": 5.0,
+						"max_scroll_speed_mm_s": 100.0,
+						"back_gesture_tolerance_px": 1000,
+						"max_zoom_angle_diff_deg": 10.0
+					}
+				},
+				{
 					"class": "TouchSuezAlgorithm",
 					"name": "touchsuez",
-					"blocked_by": ["reporting"],
+					"blocked_by": ["gesture"],
 					"parameters": {
 						"latency_logger_threshold_ms": 4.1,
 					}
@@ -87,9 +106,14 @@
 					"blocked_by": ["segmentation"],
 				},
 				{
+					"class": "CoordstateAlgorithm",
+					"name": "coordstate",
+					"blocked_by": ["touchflow"]
+				},
+				{
 					"class": "PeakTrackerAlgorithm",
 					"name": "peak_tracker",
-					"blocked_by": ["touchflow"],
+					"blocked_by": ["coordstate"],
 				},
 				{
 					"class": "GripSuppressionAlgorithm",
@@ -153,9 +177,31 @@
 					}
 				},
 				{
+					"class": "SensorFusionAlgorithm",
+					"name": "sensorfusion",
+					"blocked_by": ["gril_antenna_tuning"],
+					"parameters": {
+						"WALLABY_AUTO_SUBSCRIBE": true
+					}
+				},
+				{
+					"class": "GestureAlgorithm",
+					"name": "gesture",
+					"blocked_by": ["sensorfusion"],
+					"parameters": {
+						"min_gesture_pool_size": 5,
+						"double_tap_window_ns": 300000000,
+						"long_press_window_ns": 500000000,
+						"max_tap_displacement_mm": 5.0,
+						"max_scroll_speed_mm_s": 100.0,
+						"back_gesture_tolerance_px": 1000,
+						"max_zoom_angle_diff_deg": 10.0
+					}
+				},
+				{
 					"class": "TouchSuezAlgorithm",
 					"name": "touchsuez",
-					"blocked_by": ["gril_antenna_tuning"],
+					"blocked_by": ["gesture"],
 					"parameters": {
 						"latency_logger_threshold_ms": 4.1,
 					}

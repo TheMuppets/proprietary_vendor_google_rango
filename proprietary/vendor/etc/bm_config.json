@@ -8,6 +8,13 @@
             "Condition":"BASIC"
         },
         {
+            "Name":"DISPLAY_MITIGATION",
+            "Module":"DISPLAY",
+            "Trigger":["BATTERYLVL"],
+            "State":["LIGHT", "MEDIUM", "HEAVY", "DISABLED"],
+            "Condition":"BASIC"
+        },
+        {
             "Name":"UNDEFINED",
             "Module":"UNDEFINED",
             "Trigger":["OILO1", "OILO2", "UVLO1", "UVLO2", "SMPL"],
@@ -17,6 +24,8 @@
     ],
     "MitigationConfig": {
         "QuickSaveStats": 1,
-        "TriggerDeglitchMS": 1000
+        "TriggerDeglitchMS": 1000,
+        "TriggeredLvl": [0,4,6,11,101],
+        "TriggeredState":["HEAVY", "MEDIUM", "LIGHT", "DISABLED"]
     }
 }

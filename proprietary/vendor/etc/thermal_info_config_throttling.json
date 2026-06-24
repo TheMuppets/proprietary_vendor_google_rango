@@ -1,4 +1,5 @@
 {
+    "Include": ["thermal_info_config_bg_tasks_throttling.json"],
     "Sensors":[
         {
             "Name":"battery",
@@ -117,20 +118,12 @@
                     "CdevCeilingFrequency": [3052000, 1785000, 1785000, 1785000, 1785000, 1785000, 1785000]
                 },
                 {
-                    "CdevRequest": "cpufreq-cpu5",
+                    "CdevRequest": "big_and_big_mid",
                     "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
                     "MaxReleaseStep": 1,
                     "MaxThrottleStep": 1,
                     "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3052000, 1785000, 1785000, 1785000, 1785000, 1785000, 1785000]
-                },
-                {
-                    "CdevRequest": "cpufreq-cpu7",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 1,
-                    "MaxThrottleStep": 1,
-                    "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3782000, 2073000, 2073000, 2073000, 2073000, 2073000, 2073000]
+                    "CdevCeiling": [0, 10, 10, 10, 10, 10, 10]
                 }
             ],
             "Profile": [
@@ -150,15 +143,9 @@
                            "Disabled":true
                         },
                         {
-                           "CdevRequest": "cpufreq-cpu5",
-                           "BindedPowerRail": "S2M_VDD_CPU2",
+                           "CdevRequest": "big_and_big_mid",
                            "MaxReleaseStep": 1,
-                           "Disabled":true
-                        },
-                        {
-                           "CdevRequest": "cpufreq-cpu7",
                            "BindedPowerRail": "S2M_VDD_CPU2",
-                           "MaxReleaseStep": 1,
                            "Disabled":true
                         }
                     ]
@@ -318,20 +305,12 @@
                     "CdevCeilingFrequency": [3052000, 729600, 729600, 729600, 729600, 729600, 729600]
                 },
                 {
-                    "CdevRequest": "cpufreq-cpu5",
+                    "CdevRequest": "big_and_big_mid",
                     "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 2,
-                    "MaxThrottleStep": 2,
+                    "MaxReleaseStep": 1,
+                    "MaxThrottleStep": 1,
                     "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3052000, 729600, 729600, 729600, 729600, 729600, 729600]
-                },
-                {
-                    "CdevRequest": "cpufreq-cpu7",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 2,
-                    "MaxThrottleStep": 2,
-                    "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3782000, 883000, 883000, 883000, 883000, 883000, 883000]
+                    "CdevCeiling": [0, 20, 20, 20, 20, 20, 10]
                 }
             ],
             "Profile": [
@@ -351,13 +330,7 @@
                            "Disabled":true
                         },
                         {
-                           "CdevRequest": "cpufreq-cpu5",
-                           "MaxReleaseStep": 1,
-                           "BindedPowerRail": "S2M_VDD_CPU2",
-                           "Disabled":true
-                        },
-                        {
-                           "CdevRequest": "cpufreq-cpu7",
+                           "CdevRequest": "big_and_big_mid",
                            "MaxReleaseStep": 1,
                            "BindedPowerRail": "S2M_VDD_CPU2",
                            "Disabled":true
@@ -380,13 +353,7 @@
                            "Disabled":true
                         },
                         {
-                           "CdevRequest": "cpufreq-cpu5",
-                           "MaxReleaseStep": 1,
-                           "BindedPowerRail": "S2M_VDD_CPU2",
-                           "Disabled":true
-                        },
-                        {
-                           "CdevRequest": "cpufreq-cpu7",
+                           "CdevRequest": "big_and_big_mid",
                            "MaxReleaseStep": 1,
                            "BindedPowerRail": "S2M_VDD_CPU2",
                            "Disabled":true
@@ -548,22 +515,13 @@
                     "LimitInfoFrequency": [3052000, 3052000, 3052000, 3052000, 3052000, 3052000, 307200]
                 },
                 {
-                    "CdevRequest": "cpufreq-cpu5",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
+                    "CdevRequest": "big_and_big_mid",
+                    "CdevWeightForPID": [0.65, 0.65, 0.65, 0.65, 0.65, 0.65, 0.65],
                     "MaxReleaseStep": 1,
                     "MaxThrottleStep": 1,
                     "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3052000, 1785600, 1785600, 1267200, 729600, 729600, 307200],
-                    "LimitInfoFrequency": [3052000, 3052000, 3052000, 3052000, 3052000, 3052000, 307200]
-                },
-                {
-                    "CdevRequest": "cpufreq-cpu7",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 1,
-                    "MaxThrottleStep": 1,
-                    "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3782000, 2073000, 2073000, 1420000, 883000, 883000, 384000],
-                    "LimitInfoFrequency": [3782000, 3782000, 3782000, 3782000, 3782000, 3782000, 384000]
+                    "CdevCeiling": [0, 22, 22, 22, 22, 22, 22],
+                    "LimitInfo": [0, 0, 0, 0, 0, 0, 22]
                 },
                 {
                     "CdevRequest": "gpu",
@@ -674,20 +632,12 @@
                     "CdevCeilingFrequency": [3052000, 1785600, 1785600, 729600, 307200, 307200, 307200]
                 },
                 {
-                    "CdevRequest": "cpufreq-cpu5",
+                    "CdevRequest": "big_and_big_mid",
                     "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
                     "MaxReleaseStep": 1,
                     "MaxThrottleStep": 1,
                     "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3052000, 1785600, 1785600, 729600, 307200, 307200, 307200]
-                },
-                {
-                    "CdevRequest": "cpufreq-cpu7",
-                    "CdevWeightForPID": [1, 1, 1, 1, 1, 1, 1],
-                    "MaxReleaseStep": 1,
-                    "MaxThrottleStep": 1,
-                    "BindedPowerRail": "S2M_VDD_CPU2",
-                    "CdevCeilingFrequency": [3782000, 2073000, 2073000, 883000, 384000, 384000, 384000]
+                    "CdevCeiling": [0, 22, 22, 22, 22, 22, 22]
                 },
                 {
                     "CdevRequest": "gpu",
@@ -724,18 +674,10 @@
             "ScalingAvailableFrequenciesPath": "/sys/devices/system/cpu/cpufreq/policy2/scaling_available_frequencies"
         },
         {
-            "Name":"cpufreq-cpu5",
+            "Name":"big_and_big_mid",
             "Type":"CPU",
             "PowerCap":true,
-            "Multiplier":0.001,
-            "ScalingAvailableFrequenciesPath": "/sys/devices/system/cpu/cpufreq/policy5/scaling_available_frequencies"
-        },
-        {
-            "Name":"cpufreq-cpu7",
-            "Type":"CPU",
-            "PowerCap":true,
-            "Multiplier":0.001,
-            "ScalingAvailableFrequenciesPath": "/sys/devices/system/cpu/cpufreq/policy7/scaling_available_frequencies"
+            "Multiplier":0.001
         },
         {
             "Name":"thermal-uclamp-0",

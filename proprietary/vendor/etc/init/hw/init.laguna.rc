@@ -5,11 +5,8 @@ import android.hardware.drm@1.2-service.widevine.rc
 
 on early-init
     write /proc/sys/kernel/sched_pelt_multiplier 1
-    write /sys/kernel/mm/lru_gen/enabled n
     chown system system /sys/firmware/mbfs_root
-    write /sys/firmware/mbfs_root/cherry_pick cpm/dbg/uart_log
     write /sys/firmware/mbfs_root/cherry_pick cpm/sched/dw_stats/ResetAllStats
-    write /sys/firmware/mbfs_root/cpm/dbg/uart_log 0
     write /sys/firmware/mbfs_root/cpm/sched/dw_stats/ResetAllStats 1
 
 on init
@@ -90,8 +87,7 @@ on init
     write /proc/vendor_sched/groups/sys/uclamp_min 1024
     write /proc/vendor_sched/groups/sys/prefer_idle 1
     # Boot time mempath boosting
-    write /sys/devices/platform/gmc_freq/devfreq/gmc_freq/vote_manager/powerhint_min_freq 3148000000
-    write /sys/devices/platform/memss_freq/devfreq/memss_freq/vote_manager/powerhint_min_freq 800000000
+    write /sys/devices/platform/irm_gmc_freq/devfreq/irm_gmc_freq/vote_manager/powerhint_min_freq 3148000000
     write /sys/devices/platform/200c0780.dsufreq/devfreq/200c0780.dsufreq/vote_manager/powerhint_min_freq 1843000000
     write /sys/class/devfreq/fabhbw_freq/vote_manager/powerhint_min_freq 666000000
     write /sys/class/devfreq/inftcu_freq/vote_manager/powerhint_min_freq 480000000
@@ -115,15 +111,15 @@ on init
     write /sys/firmware/mbfs_root/cherry_pick cpm/pwr/hw_lpms/gmc/fe.cg_en_rurg_pm
     write /sys/firmware/mbfs_root/cherry_pick cpm/pwr/hw_lpms/gmc/fe.cg_en_wurg_pm
 
-    # Map Tj reset_trip_count
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/AOC/reset_trip_cnt
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/AUR/reset_trip_cnt
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/BIG/reset_trip_cnt
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/BIG_MID/reset_trip_cnt
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/GPU/reset_trip_cnt
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/LITTLE/reset_trip_cnt
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/MID/reset_trip_cnt
-    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/TPU/reset_trip_cnt
+    # Map Tj nodes
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/AOC/
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/AUR/
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/BIG/
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/BIG_MID/
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/GPU/
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/LITTLE/
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/MID/
+    write /sys/firmware/mbfs_root/cherry_pick cpm/thermal/tj/TPU/
 
     # Provisionally disable GMC urg ACG by default (b/379739109)
     write /sys/firmware/mbfs_root/cpm/pwr/hw_lpms/gmc/fe.cg_en_rurg_pm 0
@@ -192,9 +188,16 @@ on init
     # Enable transparent hugepages
     write /sys/kernel/mm/transparent_hugepage/shmem_enabled advise
 
+on init && property:ro.bootmode=charger
+    # USB, Battery and DRM devices needs to be ready at this stage before
+    # triggering on charger in order to show the charging UI.
+    wait /sys/class/power_supply/battery
+    wait /sys/class/power_supply/usb
+    wait /dev/dri/card0
+
 # ZRAM setup: use EH in 4kb kernels.
 on load_persist_props_action && property:ro.boot.hardware.cpu.pagesize=4096
-    write /sys/block/zram0/comp_algorithm ${persist.device_config.vendor_system_native_boot.comp_algorithm:-lz77eh}
+    setprop mmd.zram.comp_algorithm ${persist.vendor.zram_comp_algorithm:-lz77eh}
 
 # ZRAM setup: do not use EH in 16kb kernels.
 on init && property:ro.boot.hardware.cpu.pagesize=16384
@@ -286,6 +289,7 @@ on post-fs-data
 
     # gcdd system_dev_stat for userspace access
     chown system system /sys/devices/platform/538c004.gcdd/system_dev_stat
+    chmod 0220 /sys/devices/platform/538c004.gcdd/system_dev_stat
 
 on zygote-start
     # For PixelLogger configuration file.
@@ -432,10 +436,15 @@ on fs
     chown system system /sys/class/drm/card0-DSI-1/panel/te2_freq_hz
     chown system system /sys/class/drm/card0-DSI-1/panel/te2_option
     chown system system /sys/class/drm/card0-DSI-1/panel/skin_temperature
+    chown system system /sys/class/drm/card0-DSI-1/panel/content_gray_level
     chown system system /sys/module/drm/parameters/vblankoffdelay
+    chown system system /sys/module/mipi_dsi2h/parameters/pm_runtime_suspend_version
+    chown system system /sys/module/vs_drm/parameters/coredump_sources
+    chown system system /sys/module/vs_drm/parameters/recovery_sources
 
     chmod 0660 /sys/devices/platform/sswrp_dpu@ec00000/ee00000.dc9x00/early_wakeup
     chown system system /sys/devices/platform/sswrp_dpu@ec00000/ee00000.dc9x00/early_wakeup
+    symlink /sys/devices/platform/sswrp_dpu@ec00000/ee00000.dc9x00 /dev/dpu_device
 
 # Permissions for ALSP sensor
     chown system system /sys/class/drm/card0-DSI-1/panel/te2_rate_hz
@@ -517,8 +526,8 @@ on property:sys.boot_completed=1
     # Set kcompactd affinity
     write /sys/kernel/vendor_mm/kcompactd_cpu_affinity 7f
 
-    # Adjust watermark level
-    write /proc/sys/vm/watermark_scale_factor 200
+    # Set pa_kill affinity
+    write /sys/kernel/vendor_mm/pa_kill/cpu_affinity 7f
 
     # Back to default VM settings
     write /proc/sys/vm/dirty_expire_centisecs 3000
@@ -556,17 +565,17 @@ on property:sys.boot_completed=1
 
     # Set PMU freq limit parameters
     write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/lcpi_threshold 2
-    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/spc_threshold 59
-    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/limit_frequency 9999999
+    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/spc_threshold 76
+    write /sys/devices/system/cpu/cpufreq/policy0/sched_pixel/limit_frequency 1363000
     write /sys/devices/system/cpu/cpufreq/policy2/sched_pixel/lcpi_threshold 2
     write /sys/devices/system/cpu/cpufreq/policy2/sched_pixel/spc_threshold 59
-    write /sys/devices/system/cpu/cpufreq/policy2/sched_pixel/limit_frequency 9999999
+    write /sys/devices/system/cpu/cpufreq/policy2/sched_pixel/limit_frequency 1785000
     write /sys/devices/system/cpu/cpufreq/policy5/sched_pixel/lcpi_threshold 6
-    write /sys/devices/system/cpu/cpufreq/policy5/sched_pixel/spc_threshold 64
-    write /sys/devices/system/cpu/cpufreq/policy5/sched_pixel/limit_frequency 9999999
+    write /sys/devices/system/cpu/cpufreq/policy5/sched_pixel/spc_threshold 59
+    write /sys/devices/system/cpu/cpufreq/policy5/sched_pixel/limit_frequency 1785000
     write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/lcpi_threshold 5
-    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/spc_threshold 69
-    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/limit_frequency 9999999
+    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/spc_threshold 62
+    write /sys/devices/system/cpu/cpufreq/policy7/sched_pixel/limit_frequency 2457000
     write /proc/vendor_sched/pmu_poll_time 10
 
     write /proc/vendor_sched/per_cpu_iowait_boost_max_value 720
@@ -605,6 +614,9 @@ on property:sys.boot_completed=1
 
 #Enable SICD
     write /sys/devices/system/cpu/cpupm/cpupm/sicd 1
+
+# Record system boot completed
+    write /sys/devices/platform/538c004.gcdd/system_dev_stat "0xc 0x1"
 
 on property:sys.boot_completed=1 && property:persist.sys.device_provisioned=1
     write /sys/class/power_supply/battery/first_usage_date 0
@@ -708,22 +720,39 @@ on post-fs-data
     chown system system /sys/kernel/metrics/thermal/tr_by_group/tmu/stats_reset
     chown system system /sys/kernel/metrics/thermal/tr_by_group/spmic/stats_reset
 
+on early-init
+    setprop vendor.thermal.hw_variant standard
+
+on property:vendor.thermal.link_ready=1 && property:vendor.pixel.system.phenotype.Thermal__shutdown_exp_enabled=true && property:vendor.thermal.hw_variant=standard
+    setprop vendor.thermal.config "thermal_info_config_lpm.json"
+    restart vendor.thermal-hal
+
+on property:vendor.thermal.link_ready=1 && property:vendor.pixel.system.phenotype.Thermal__shutdown_exp_enabled=false && property:vendor.thermal.hw_variant=standard
+    setprop vendor.thermal.config "thermal_info_config.json"
+    restart vendor.thermal-hal
+
 on late-init && property:ro.boot.cdt_hwid=0x00070303000101010000000000000000
+    setprop vendor.thermal.hw_variant wingboard
     setprop vendor.thermal.config "thermal_info_config_wingboard.json"
 
 on late-init && property:ro.boot.cdt_hwid=0x00070403000101010000000000000000
+    setprop vendor.thermal.hw_variant wingboard
     setprop vendor.thermal.config "thermal_info_config_wingboard.json"
 
 on late-init && property:ro.boot.cdt_hwid=0x00070502000101010000000000000000
+    setprop vendor.thermal.hw_variant wingboard
     setprop vendor.thermal.config "thermal_info_config_wingboard.json"
 
 on late-init && property:ro.boot.cdt_hwid=0x00070502000101010000000100000000
+    setprop vendor.thermal.hw_variant wingboard
     setprop vendor.thermal.config "thermal_info_config_wingboard.json"
 
 on late-init && property:ro.boot.cdt_hwid=0x00070503000101010000000000000000
+    setprop vendor.thermal.hw_variant wingboard
     setprop vendor.thermal.config "thermal_info_config_wingboard.json"
 
 on late-init && property:ro.boot.cdt_hwid=0x00070603000101010000000000000000
+    setprop vendor.thermal.hw_variant wingboard
     setprop vendor.thermal.config "thermal_info_config_wingboard.json"
 
 on charger
@@ -810,3 +839,10 @@ on late-init && property:ro.boot.hardware.sku=G4QUR
 
 on late-init && property:ro.boot.hardware.sku=GUL82
     setprop ro.telephony.sim_slots.count 1
+
+# PCIe devcoredump collector
+on property:vendor.devcoredump.c500000.pcie.last_timestamp=*
+    exec -- /vendor/bin/devcoredump_action vendor.devcoredump.c500000.pcie.devpath
+
+on property:vendor.devcoredump.3c500000.pcie.last_timestamp=*
+    exec -- /vendor/bin/devcoredump_action vendor.devcoredump.3c500000.pcie.devpath

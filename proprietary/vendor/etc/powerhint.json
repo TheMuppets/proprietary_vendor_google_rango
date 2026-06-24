@@ -432,13 +432,15 @@
       "ResetOnInit": true
     },
     {
-      "Name": "BGUClampMaxBoost",
+      "Name": "BGUClampMax",
       "Path": "/proc/vendor_sched/groups/bg/uclamp_max",
       "Values": [
-        "130",
-        "512"
+        "10",
+        "60",
+        "100",
+        "130"
       ],
-      "DefaultIndex": 0,
+      "DefaultIndex": 3,
       "ResetOnInit": true
     },
     {
@@ -481,6 +483,17 @@
       ],
       "DefaultIndex": 0,
       "ResetOnInit": true
+    },
+    {
+      "Name": "AAModeProperty",
+      "Path": "vendor.powerhal.mode.aa",
+      "Values": [
+        "0",
+        "1"
+      ],
+      "ResetOnInit": true,
+      "DefaultIndex": 0,
+      "Type": "Property"
     },
     {
       "Name": "CAMUClampBoost",
@@ -902,19 +915,8 @@
       "ResetOnInit": true
     },
     {
-      "Name": "MemssFreq",
-      "Path": "/sys/devices/platform/memss_freq/devfreq/memss_freq/vote_manager/powerhint_min_freq",
-      "Values": [
-        "9999999999",
-        "800000000",
-        "466000000",
-        "178000000"
-      ],
-      "ResetOnInit": true
-    },
-    {
-      "Name": "GmcFreq",
-      "Path": "/sys/devices/platform/gmc_freq/devfreq/gmc_freq/vote_manager/powerhint_min_freq",
+      "Name": "IrmGmcFreq",
+      "Path": "/sys/devices/platform/irm_gmc_freq/devfreq/irm_gmc_freq/vote_manager/powerhint_min_freq",
       "Values": [
         "9999999999",
         "3686000000",
@@ -1020,20 +1022,8 @@
       "Type": "Property"
     },
     {
-      "Name": "CPU_BIG_TSKIN_BYPASS",
-      "Path": "/sys/class/powercap/gpc:0:0:3/power_limit_bypass_msec",
-      "Values": [
-        "0",
-        "500",
-        "1000",
-        "2000"
-      ],
-      "WriteOnly": true,
-      "DefaultIndex": 0
-    },
-    {
-      "Name": "CPU_BIGMID_TSKIN_BYPASS",
-      "Path": "/sys/class/powercap/gpc:0:0:2/power_limit_bypass_msec",
+      "Name": "CPU_BIG_AND_BIGMID_TSKIN_BYPASS",
+      "Path": "/sys/class/powercap/gpc:0:0:0/power_limit_bypass_msec",
       "Values": [
         "0",
         "500",
@@ -1045,7 +1035,7 @@
     },
     {
       "Name": "CPU_MID_TSKIN_BYPASS",
-      "Path": "/sys/class/powercap/gpc:0:0:1/power_limit_bypass_msec",
+      "Path": "/sys/class/powercap/gpc:0:0:2/power_limit_bypass_msec",
       "Values": [
         "0",
         "500",
@@ -1057,7 +1047,7 @@
     },
     {
       "Name": "CPU_LITTLE_TSKIN_BYPASS",
-      "Path": "/sys/class/powercap/gpc:0:0:0/power_limit_bypass_msec",
+      "Path": "/sys/class/powercap/gpc:0:0:1/power_limit_bypass_msec",
       "Values": [
         "0",
         "500",
@@ -1066,6 +1056,26 @@
       ],
       "WriteOnly": true,
       "DefaultIndex": 0
+    },
+    {
+      "Name": "ntc_critical_trip",
+      "Path": "/dev/thermal/tz-by-name/quiet_therm/trip_point_1_temp",
+      "Values": [
+        "65000",
+        "70000"
+      ],
+      "DefaultIndex": 0,
+      "ResetOnInit": true
+    },
+    {
+      "Name": "ntc_hot_trip",
+      "Path": "/dev/thermal/tz-by-name/quiet_therm/trip_point_2_temp",
+      "Values": [
+        "70000",
+        "75000"
+      ],
+      "DefaultIndex": 0,
+      "ResetOnInit": true
     },
     {
       "Name": "IspBeClockMinFreq",
@@ -1117,7 +1127,7 @@
       "Name": "ReclaimDonatedMemory",
       "Path": "/sys/fs/f2fs/tuning/reclaim_caches_kb",
       "Values": [
-        "102400",
+        "1048576",
         "0"
       ],
       "ResetOnInit": false
@@ -1127,7 +1137,7 @@
       "Path": "/sys/kernel/vendor_mm/kswapd_uclamp_min",
       "Values": [
         "0",
-        "300"
+        "500"
       ],
       "ResetOnInit": true
     },
@@ -1236,6 +1246,33 @@
       "ResetOnInit": true
     },
     {
+      "Name": "SchedLibMaskIn",
+      "Path": "/proc/vendor_sched/sched_lib_mask_in",
+      "Values": [
+        "0x80",
+        "0x0"
+      ],
+      "ResetOnInit": true
+    },
+    {
+      "Name": "SchedLibMaskOut",
+      "Path": "/proc/vendor_sched/sched_lib_mask_out",
+      "Values": [
+        "0xfc",
+        "0x0"
+      ],
+      "ResetOnInit": true
+    },
+    {
+      "Name": "DisableSchedSetAffinityMask",
+      "Path": "/proc/vendor_sched/groups/ta/disable_sched_setaffinity_mask",
+      "Values": [
+        "1",
+        "0"
+      ],
+      "ResetOnInit": true
+    },
+    {
       "Name": "SYSTEM_UI_ADPF_PROFILES",
       "Path": "<AdpfConfig>:SYSTEM_UI",
       "Values": [
@@ -1315,12 +1352,6 @@
     },
     {
       "PowerHint": "LAUNCH",
-      "Node": "BGUClampMaxBoost",
-      "Duration": 1500,
-      "Value": "512"
-    },
-    {
-      "PowerHint": "LAUNCH",
       "Node": "FGUClampBoost",
       "Duration": 1500,
       "Value": "259"
@@ -1345,13 +1376,7 @@
     },
     {
       "PowerHint": "LAUNCH",
-      "Node": "MemssFreq",
-      "Duration": 1500,
-      "Value": "9999999999"
-    },
-    {
-      "PowerHint": "LAUNCH",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 1500,
       "Value": "9999999999"
     },
@@ -1541,12 +1566,6 @@
     },
     {
       "PowerHint": "LAUNCH_EXTEND",
-      "Node": "BGUClampMaxBoost",
-      "Duration": 2000,
-      "Value": "512"
-    },
-    {
-      "PowerHint": "LAUNCH_EXTEND",
       "Node": "Dex2oatUClampMaxBoost",
       "Duration": 2000,
       "Value": "615"
@@ -1673,7 +1692,7 @@
     },
     {
       "PowerHint": "DISPLAY_CHANGE",
-      "Node": "MemssFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 1500,
       "Value": "9999999999"
     },
@@ -1773,13 +1792,7 @@
     },
     {
       "PowerHint": "PER_ADPF_SESSION_FIRST_FRAME",
-      "Node": "MemssFreq",
-      "Duration": 33,
-      "Value": "466000000"
-    },
-    {
-      "PowerHint": "PER_ADPF_SESSION_FIRST_FRAME",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 33,
       "Value": "1344000000"
     },
@@ -1800,6 +1813,12 @@
       "Node": "TAPreferHighCap",
       "Duration": 33,
       "Value": "1"
+    },
+    {
+      "PowerHint": "WEB_SESSIONS_CPU_LOAD_UP",
+      "Node": "TARampupMultiplier",
+      "Duration": 300,
+      "Value": "4"
     },
     {
       "PowerHint": "DISPLAY_INACTIVE",
@@ -2038,6 +2057,11 @@
     },
     {
       "PowerHint": "INTERACTION",
+      "Type": "DoHint",
+      "Value": "INTERACTION_EXTEND"
+    },
+    {
+      "PowerHint": "INTERACTION_EXTEND",
       "Node": "GPUPowerOn",
       "Duration": 100,
       "Value": "on"
@@ -2052,7 +2076,7 @@
       "PowerHint": "CAMERA_RECLAIM_DONATED_MEMORY",
       "Node": "ReclaimDonatedMemory",
       "Duration": 1000,
-      "Value": "102400"
+      "Value": "1048576"
     },
     {
 
@@ -2093,13 +2117,7 @@
     },
     {
       "PowerHint": "CAMERA_LAUNCH",
-      "Node": "MemssFreq",
-      "Duration": 1000,
-      "Value": "9999999999"
-    },
-    {
-      "PowerHint": "CAMERA_LAUNCH",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 1000,
       "Value": "9999999999"
     },
@@ -2213,13 +2231,7 @@
     },
     {
       "PowerHint": "CAMERA_LAUNCH",
-      "Node": "CPU_BIG_TSKIN_BYPASS",
-      "Duration": 0,
-      "Value": "1000"
-    },
-    {
-      "PowerHint": "CAMERA_LAUNCH",
-      "Node": "CPU_BIGMID_TSKIN_BYPASS",
+      "Node": "CPU_BIG_AND_BIGMID_TSKIN_BYPASS",
       "Duration": 0,
       "Value": "1000"
     },
@@ -2525,6 +2537,24 @@
     },
     {
       "PowerHint": "GAME",
+      "Node": "SchedLibMaskIn",
+      "Duration": 0,
+      "Value": "0x80"
+    },
+    {
+      "PowerHint": "GAME",
+      "Node": "SchedLibMaskOut",
+      "Duration": 0,
+      "Value": "0xfc"
+    },
+    {
+      "PowerHint": "GAME",
+      "Node": "DisableSchedSetAffinityMask",
+      "Duration": 0,
+      "Value": "1"
+    },
+    {
+      "PowerHint": "GAME",
       "Node": "AutoUclampMaxStUtilThreshold",
       "Duration": 0,
       "Value": "0"
@@ -2579,13 +2609,7 @@
     },
     {
       "PowerHint": "CAMERA_LAUNCH_EXTENDED",
-      "Node": "CPU_BIG_TSKIN_BYPASS",
-      "Duration": 0,
-      "Value": "2000"
-    },
-    {
-      "PowerHint": "CAMERA_LAUNCH_EXTENDED",
-      "Node": "CPU_BIGMID_TSKIN_BYPASS",
+      "Node": "CPU_BIG_AND_BIGMID_TSKIN_BYPASS",
       "Duration": 0,
       "Value": "2000"
     },
@@ -3065,7 +3089,7 @@
     },
     {
       "PowerHint": "CAMERA_STREAMING_EXTREME",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 0,
       "Value": "1344000000"
     },
@@ -3305,7 +3329,7 @@
     },
     {
       "PowerHint": "CAMERA_STREAMING_HIGH",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 0,
       "Value": "1344000000"
     },
@@ -3557,7 +3581,7 @@
     },
     {
       "PowerHint": "CAMERA_STREAMING_STANDARD",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 0,
       "Value": "1344000000"
     },
@@ -3881,7 +3905,7 @@
     },
     {
       "PowerHint": "CAMERA_STREAMING_LOW",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 0,
       "Value": "1344000000"
     },
@@ -4271,13 +4295,7 @@
     },
     {
       "PowerHint": "FP_BOOST",
-      "Node": "CPU_BIG_TSKIN_BYPASS",
-      "Duration": 0,
-      "Value": "1000"
-    },
-    {
-      "PowerHint": "FP_BOOST",
-      "Node": "CPU_BIGMID_TSKIN_BYPASS",
+      "Node": "CPU_BIG_AND_BIGMID_TSKIN_BYPASS",
       "Duration": 0,
       "Value": "1000"
     },
@@ -4385,7 +4403,7 @@
     },
     {
       "PowerHint": "FACE_UNLOCK_BOOST",
-      "Node": "CPU_BIGMID_TSKIN_BYPASS",
+      "Node": "CPU_BIG_AND_BIGMID_TSKIN_BYPASS",
       "Duration": 0,
       "Value": "500"
     },
@@ -4524,6 +4542,12 @@
     {
       "PowerHint": "LOW_POWER",
       "Node": "TjOffset",
+      "Duration": 0,
+      "Value": "1"
+    },
+    {
+      "PowerHint": "AUTOMOTIVE_PROJECTION",
+      "Node": "AAModeProperty",
       "Duration": 0,
       "Value": "1"
     },
@@ -4673,13 +4697,7 @@
     },
     {
       "PowerHint": "THERMAL_VIRTUAL-SKIN-HINT_CRITICAL",
-      "Node": "CPU_BIG_TSKIN_BYPASS",
-      "Duration": 0,
-      "Value": "0"
-    },
-    {
-      "PowerHint": "THERMAL_VIRTUAL-SKIN-HINT_CRITICAL",
-      "Node": "CPU_BIGMID_TSKIN_BYPASS",
+      "Node": "CPU_BIG_AND_BIGMID_TSKIN_BYPASS",
       "Duration": 0,
       "Value": "0"
     },
@@ -4694,6 +4712,36 @@
       "Node": "CPU_LITTLE_TSKIN_BYPASS",
       "Duration": 0,
       "Value": "0"
+    },
+    {
+      "PowerHint": "THERMAL_ShutdownMode_EMERGENCY",
+      "Node": "ntc_critical_trip",
+      "Duration": 0,
+      "Value": "70000"
+    },
+    {
+      "PowerHint": "THERMAL_ShutdownMode_EMERGENCY",
+      "Node": "ntc_hot_trip",
+      "Duration": 0,
+      "Value": "75000"
+    },
+    {
+      "PowerHint": "THERMAL_BG-TASKS-THROTTLING-HINT_LIGHT",
+      "Node": "BGUClampMax",
+      "Duration": 0,
+      "Value": "100"
+    },
+    {
+      "PowerHint": "THERMAL_BG-TASKS-THROTTLING-HINT_MODERATE",
+      "Node": "BGUClampMax",
+      "Duration": 0,
+      "Value": "60"
+    },
+    {
+      "PowerHint": "THERMAL_BG-TASKS-THROTTLING-HINT_SEVERE",
+      "Node": "BGUClampMax",
+      "Duration": 1800000,
+      "Value": "10"
     },
     {
       "PowerHint": "DISABLE_AMM",
@@ -4787,7 +4835,7 @@
     },
     {
       "PowerHint": "CAMERA_PROJECT11",
-      "Node": "GmcFreq",
+      "Node": "IrmGmcFreq",
       "Duration": 0,
       "Value": "1344000000"
     },
@@ -5198,6 +5246,8 @@
   ],
   "OtherConfigs": {
     "GpuSysfsPath" : "/sys/class/devfreq/34f00000.gpu0",
-    "EnableSFPreferHighCap": true
+    "EnableSFPreferHighCap": true,
+    "EnableMetricCollection": true,
+    "MaxNumOfCachedSessionMetrics": 100
   }
 }

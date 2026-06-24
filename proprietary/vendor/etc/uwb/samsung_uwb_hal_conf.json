@@ -8,13 +8,12 @@
         "verbose_logging_for_cal_update": 0
     },
     "uwbs_cfg": {
-        "cir": 0,
         "ranging_data_info": 0,
         "enable_per_slot_logging": 0,
         "auto_update_nv": 1,
         "force_update_nv": 0,
         "update_nv_priority": ["region","persist","default"],
-        "max_region_change_per_hour": 6,
+        "max_region_change_per_hour": 600,
         "enable_radar_override": 0
     },
     "dump_cfg": {
@@ -73,5 +72,11 @@
         "sfd_id": 0,
         "rx_accum": 48,
         "data_rate": 0
+    },
+    "cir_cfg": {
+        "shr_cir_en": 0,
+        "number_of_taps": 50,
+        "offset": 20,
+        "reference": 0
     }
 }

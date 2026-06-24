@@ -1,0 +1,6 @@
+service pixelmd /vendor/bin/pixelmd ${vendor.pixelmd.config:}
+    task_profiles ServiceCapacityLow
+    user system
+    group system log
+    oneshot
+    disabled

@@ -260,7 +260,7 @@
           "Combination": ["VIRTUAL-SKIN-CHARGE-LEGACY"],
           "Coefficient": ["NO_WLC"],
           "CoefficientType": ["SENSOR"],
-          "HotThreshold": ["NAN", 34.0, 38.0, 41.0, 45.0, 46.5, 55.0],
+          "HotThreshold": ["NAN", 34.0, 38.0, 41.0, 45.0, 46.5, 56.5],
           "HotHysteresis": [0.0, 0.0, 1.9, 1.9, 1.9, 1.4, 1.9],
           "Offset": 1000.0,
           "Multiplier": 0.001,
@@ -342,7 +342,7 @@
           "Combination": ["VIRTUAL-SKIN-CHARGE-WLC-LEGACY", "VIRTUAL-SKIN-CHARGE-LEGACY"],
           "Coefficient": ["IS_WLC", "NO_WLC"],
           "CoefficientType": ["SENSOR", "SENSOR"],
-          "HotThreshold": ["NaN", 37.0, 41.0, 45.0, 46.5, 51.0, 55.0],
+          "HotThreshold": ["NaN", 37.0, 41.0, 45.0, 46.5, 51.0, 56.5],
           "HotHysteresis": [0.0, 0.0, 1.9, 1.9, 1.4, 1.9, 1.9],
           "Offset": 1000.0,
           "Multiplier": 0.001,
@@ -414,8 +414,8 @@
             "Name":"PARTIAL_SYSTEM_POWER",
             "VirtualRails":true,
             "Formula":"WEIGHTED_AVG",
-            "Combination":["S1M_VDD_AMB", "S2M_VDD_CPU2", "S3M_VDD_CPU1", "S4M_VDD_CPU", "S7M_VDD_TPU", "S8M_LLDO2", "S9M_VDD_TPU_M", "S11M_VDD_CPU_M", "S12M_VDD_CPU1_M", "VSYS_PWR_WLAN_BT", "S2S_VDD_GPU", "S4S_VDD2H_MEM", "S7S_MLDO", "S8S_VDD_GMC", "VSYS_PWR_RFFE", "VSYS_PWR_MODEM", "VSYS_PWR_DISP_INNER", "VSYS_PWR_DISP_OUTER"],
-            "Coefficient":[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+            "Combination":["S1M_VDD_AMB", "S2M_VDD_CPU2", "S3M_VDD_CPU1", "S4M_VDD_CPU", "S7M_VDD_TPU", "S8M_LLDO2", "S11M_VDD_CPU_M", "S12M_VDD_CPU1_M", "VSYS_PWR_WLAN_BT", "S2S_VDD_GPU", "S4S_VDD2H_MEM", "S7S_MLDO", "S8S_VDD_GMC", "VSYS_PWR_RFFE", "VSYS_PWR_MODEM", "VSYS_PWR_DISP_INNER", "VSYS_PWR_DISP_OUTER"],
+            "Coefficient":[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
             "PowerSampleDelay":7000,
             "PowerSampleCount":5
         }
