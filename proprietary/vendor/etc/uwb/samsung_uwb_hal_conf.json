@@ -78,5 +78,8 @@
         "number_of_taps": 50,
         "offset": 20,
         "reference": 0
+    },
+    "sts": {
+        "sts_cir_en": 0
     }
 }

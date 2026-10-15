@@ -1,20 +1,21 @@
 {
 	"pipelines": [
-    {
+		{
 			"name": "default",
 			"device": "/dev/touch_offload",
+			"uclamp_min": 68,
 			"algorithms": [
 				{
 					"class": "SegmentationAlgorithm",
-					"name": "segmentation",
+					"name": "segmentation"
 				},
 				{
 					"class": "TouchflowAlgorithm",
 					"name": "touchflow",
 					"parameters": {
-					    "config": "/vendor/etc/touchflow_inner.pb"
+						"config": "/vendor/etc/touchflow_inner.pb"
 					},
-					"blocked_by": ["segmentation"],
+					"blocked_by": ["segmentation"]
 				},
 				{
 					"class": "CoordstateAlgorithm",
@@ -24,7 +25,7 @@
 				{
 					"class": "PeakTrackerAlgorithm",
 					"name": "peak_tracker",
-					"blocked_by": ["coordstate"],
+					"blocked_by": ["coordstate"]
 				},
 				{
 					"class": "GripSuppressionAlgorithm",
@@ -37,11 +38,11 @@
 				{
 					"class": "HoverRejectionAlgorithm",
 					"name": "hover",
-                                        "parameters": {
-                                                "weak_th": 0.5,
-                                                "confident_th": 5.0,
-                                                "min_time_th": 100000000,
-                                        },
+					"parameters": {
+						"weak_th": 0.5,
+						"confident_th": 5.0,
+						"min_time_th": 100000000
+					},
 					"blocked_by": ["grip_suppression"]
 				},
 				{
@@ -63,7 +64,7 @@
 				{
 					"class": "ReportingAlgorithm",
 					"name": "reporting",
-					"blocked_by": ["abnormal_detect"],
+					"blocked_by": ["abnormal_detect"]
 				},
 				{
 					"class": "GestureAlgorithm",
@@ -84,26 +85,27 @@
 					"name": "touchsuez",
 					"blocked_by": ["gesture"],
 					"parameters": {
-						"latency_logger_threshold_ms": 4.1,
+						"latency_logger_threshold_ms": 4.1
 					}
 				}
-			],
+			]
 		},
 		{
 			"name": "outer",
 			"device": "/dev/touch_offload_outer",
+			"uclamp_min": 68,
 			"algorithms": [
 				{
 					"class": "SegmentationAlgorithm",
-					"name": "segmentation",
+					"name": "segmentation"
 				},
 				{
 					"class": "TouchflowAlgorithm",
 					"name": "touchflow",
 					"parameters": {
-					    "config": "/vendor/etc/touchflow_outer.pb"
+						"config": "/vendor/etc/touchflow_outer.pb"
 					},
-					"blocked_by": ["segmentation"],
+					"blocked_by": ["segmentation"]
 				},
 				{
 					"class": "CoordstateAlgorithm",
@@ -113,7 +115,7 @@
 				{
 					"class": "PeakTrackerAlgorithm",
 					"name": "peak_tracker",
-					"blocked_by": ["coordstate"],
+					"blocked_by": ["coordstate"]
 				},
 				{
 					"class": "GripSuppressionAlgorithm",
@@ -127,21 +129,21 @@
 					"class": "EarCheekDetectionAlgorithm",
 					"name": "earcheek",
 					"parameters": {
-					        "prob_threshold_lo": 0.5,
-					        "prob_threshold_hi": 0.99,
-					        "min_frames_under_lower_th": 10,
-					        "min_frames_over_upper_th": 10,
+						"prob_threshold_lo": 0.5,
+						"prob_threshold_hi": 0.99,
+						"min_frames_under_lower_th": 10,
+						"min_frames_over_upper_th": 10
 					},
-					"blocked_by": ["grip_suppression"],
+					"blocked_by": ["grip_suppression"]
 				},
 				{
 					"class": "HoverRejectionAlgorithm",
 					"name": "hover",
-                                        "parameters": {
-                                                "weak_th": 0.6,
-                                                "confident_th": 5.0,
-                                                "min_time_th": 120000000,
-                                        },
+					"parameters": {
+						"weak_th": 0.6,
+						"confident_th": 5.0,
+						"min_time_th": 120000000
+					},
 					"blocked_by": ["earcheek"]
 				},
 				{
@@ -163,7 +165,7 @@
 				{
 					"class": "ReportingAlgorithm",
 					"name": "reporting",
-					"blocked_by": ["abnormal_detect"],
+					"blocked_by": ["abnormal_detect"]
 				},
 				{
 					"class": "HardwareStateDetector",
@@ -173,7 +175,7 @@
 						"enableGril": true,
 						"minNumFramesCaseDetection": 20000,
 						"scalingFactorSignalStrength": 1.12,
-						"debounceDelayCaseAbsentToPresentMs": 0,
+						"debounceDelayCaseAbsentToPresentMs": 0
 					}
 				},
 				{
@@ -203,10 +205,10 @@
 					"name": "touchsuez",
 					"blocked_by": ["gesture"],
 					"parameters": {
-						"latency_logger_threshold_ms": 4.1,
+						"latency_logger_threshold_ms": 4.1
 					}
 				}
-			],
+			]
 		}
 	]
 }
